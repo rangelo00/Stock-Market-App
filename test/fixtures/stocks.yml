@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  id: MyString
+  UNIQUE: MyString
+  symbol: MyString
+  name: MyString
+  current_price: MyString
+  last_updated: MyString
+  DateTime: MyString
+
+two:
+  id: MyString
+  UNIQUE: MyString
+  symbol: MyString
+  name: MyString
+  current_price: MyString
+  last_updated: MyString
+  DateTime: MyString
