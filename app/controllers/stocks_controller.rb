@@ -3,6 +3,7 @@ class StocksController < ApplicationController
   end
 
   def show
+    hello
   end
 
   def new
