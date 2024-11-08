@@ -23,6 +23,9 @@ default: &default
 development:
   <<: *default
   database: stock_trading_app_development
+  pool: 5
+  username: ksahirani
+  password: ksahirani
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -57,6 +60,9 @@ development:
 test:
   <<: *default
   database: stock_trading_app_test
+  pool: 5
+  username: ksahirani
+  password: ksahirani
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,5 +87,6 @@ test:
 production:
   <<: *default
   database: stock_trading_app_production
-  username: stock_trading_app
-  password: <%= ENV["STOCK_TRADING_APP_DATABASE_PASSWORD"] %>
+  pool: 5
+  username: ksahirani
+  password: ksahirani
