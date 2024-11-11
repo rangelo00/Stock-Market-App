@@ -1,6 +1,24 @@
 Rails.application.routes.draw do
-  devise_for :traders
-  resources :traders
+  devise_for :admins, controllers: {
+    sessions: 'admin/sessions',
+    registrations: 'admins/registrations'
+  }
+  devise_for :traders, controllers: {
+    sessions: 'traders/sessions',
+    registrations: 'traders/registrations'
+  }
+  
+  namespace :admin do
+    resources :dashboard, only: [:index]
+  end
+  
+  namespace :traders do
+    resources :dashboard, only: [:index]
+  end
+
+  authenticated :admin do
+    root 'admin/dashboard#index'
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
