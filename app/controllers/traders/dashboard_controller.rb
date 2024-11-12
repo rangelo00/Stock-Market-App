@@ -1,7 +1,7 @@
 class Traders::DashboardController < ApplicationController
     before_action :authenticate_trader!
     
-    def_index
+    def index
      #trader actions
     end
 end
