@@ -16,6 +16,12 @@ module StockTradingApp
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    config.after_initialize do
+      Rails.root.join('tmp', 'mail').tap do |path|
+        FileUtils.mkdir_p(path) unless File.exist?(path)
+      end
+    end #mailerprev
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

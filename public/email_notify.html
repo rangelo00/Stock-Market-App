@@ -1,0 +1,42 @@
+<!-- BEGIN app/views/layouts/mailer.html.erb --><!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style>
+      /* Email styles need to be inline */
+    </style>
+  </head>
+
+  <body>
+    <!-- BEGIN app/views/login_notification_mailer/notify_login.html.erb --><!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <script>
+      // Redirect to dashboard after 3 seconds
+      setTimeout(function() {
+        window.location.href = '/admin/dashboard';
+      }, 3000);  // 3000 milliseconds = 3 seconds
+    </script>
+  </head>
+  <body>
+    <div style="text-align: center; margin-top: 20px;">
+      <p>Redirecting to dashboard in 3 seconds...</p>
+    </div>
+    
+    <!-- Your existing email content -->
+    <h1>Login Notification</h1>
+    <p>
+      Hello reyes.ralphangelo@gmail.com,
+    </p>
+    <p>
+      You have successfully logged in at November 18, 2024 at 02:48 AM
+    </p>
+    <p>
+      If this wasn't you, please contact support immediately.
+    </p>
+  </body>
+</html><!-- END app/views/login_notification_mailer/notify_login.html.erb -->
+  </body>
+</html>
+<!-- END app/views/layouts/mailer.html.erb -->

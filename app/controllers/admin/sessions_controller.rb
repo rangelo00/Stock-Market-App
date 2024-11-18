@@ -1,9 +1,29 @@
+# app/controllers/admin/sessions_controller.rb
 class Admin::SessionsController < Devise::SessionsController
-    def after_sign_in_path_for(resource)
-        admin_dashboard_index_path
-    end
-
-    def after_sign_out_path_for(resource)
-        destroy_admin_session_path
+  def create
+    super
+    if current_admin
+      # Send login notification email
+      @email = LoginNotificationMailer.notify_login(current_admin, request).deliver_now
+      
+      # Store the email content in a temporary file
+      preview_path = Rails.root.join('public', 'email_preview.html')
+      File.write(preview_path, @email.html_part.body.to_s)
+      
+      session[:show_email_preview] = true
     end
   end
+
+  def after_sign_in_path_for(resource)
+    if session[:show_email_preview]
+      session[:show_email_preview] = nil
+      '/email_preview.html'  # Direct path to the preview file
+    else
+      admin_dashboard_index_path
+    end
+  end
+
+  def after_sign_out_path_for(resource)
+    new_admin_session_path
+  end
+end
