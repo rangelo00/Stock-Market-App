@@ -1,0 +1,84 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-bold">Trader Details</h1>
+      <%= link_to "← Back to Traders", admin_traders_path, class: "text-indigo-600 hover:text-indigo-900" %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Trader Information</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-gray-600">Email</p>
+        <p class="font-medium"><%= @trader.email %></p>
+      </div>
+      <div>
+        <p class="text-gray-600">Registration Date</p>
+        <p class="font-medium"><%= @trader.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+      <div>
+        <p class="text-gray-600">Total Portfolio Value</p>
+        <p class="font-medium">$<%= number_with_precision(@total_portfolio_value, precision: 2, delimiter: ',') %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Portfolios Section -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Current Portfolio</h2>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+            <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Quantity</th>
+            <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Current Value</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @portfolios.each do |portfolio| %>
+            <tr>
+              <td class="px-4 py-2 text-sm"><%= portfolio.stock.symbol %></td>
+              <td class="px-4 py-2 text-sm text-right"><%= portfolio.quantity %></td>
+              <td class="px-4 py-2 text-sm text-right">
+                $<%= number_with_precision(portfolio.quantity * portfolio.stock.current_price, precision: 2, delimiter: ',') %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recent Transactions Section -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+          <tr>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+            <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+            <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Type</th>
+            <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @transactions.limit(5).each do |transaction| %>
+            <tr>
+              <td class="px-4 py-2 text-sm"><%= transaction.created_at.strftime("%Y-%m-%d") %></td>
+              <td class="px-4 py-2 text-sm"><%= transaction.stock.symbol %></td>
+              <td class="px-4 py-2 text-sm text-right">
+                <span class="<%= transaction.transaction_type == 'buy' ? 'text-green-600' : 'text-red-600' %>">
+                  <%= transaction.transaction_type.upcase %>
+                </span>
+              </td>
+              <td class="px-4 py-2 text-sm text-right">
+                <%= transaction.quantity %> @ $<%= number_with_precision(transaction.price, precision: 2) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

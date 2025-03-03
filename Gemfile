@@ -59,3 +59,13 @@ end
 gem 'devise', '~> 4.9', '>= 4.9.4'
 #auth
 
+gem 'alphavantage'
+
+# API call
+gem 'httparty'
+
+# Gemfile
+gem 'dotenv-rails', groups: [:development, :test]
+
+gem "jsbundling-rails"
+gem "cssbundling-rails"

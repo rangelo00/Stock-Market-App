@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to Stock Trading App!</h1>
+    <p>
+      Hello <%= @trader.email %>,
+    </p>
+    <p>
+      Great news! Your trading account has been approved. You can now log in and start trading.
+    </p>
+    <p>
+      To login to your account, just follow this link: <%= link_to 'Login to my account', @login_url %>
+    </p>
+    <p>
+      Thanks for joining and have a great day!
+    </p>
+  </body>
+</html>

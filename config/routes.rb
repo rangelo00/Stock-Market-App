@@ -9,15 +9,34 @@ Rails.application.routes.draw do
   }
   
   namespace :admin do
-    resources :dashboard, only: [:index]
+    get 'dashboard', to: 'dashboard#index'
+    resources :traders do    # Removed the 'only' restriction
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+    resources :transactions, only: [:index] #full transaction list
   end
   
   namespace :traders do
-    resources :dashboard, only: [:index]
+    get 'dashboard', to: 'dashboard#index'
+    resources :stocks do
+      member do
+        post 'buy'
+        post 'sell'
+      end
+    end
+    resources :portfolios, only: [:index]
+    resources :transactions, only: [:index]
   end
 
   authenticated :admin do
     root 'admin/dashboard#index'
+  end
+
+  authenticated :trader do
+    root 'traders/dashboard#index', as: :trader_root
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -31,5 +50,5 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  # root "home#index"
 end

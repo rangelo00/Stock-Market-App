@@ -1,0 +1,54 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <h1 class="text-2xl font-bold mb-4"><%= @stock.symbol %></h1>
+    
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="p-4 bg-gray-50 rounded">
+        <div class="text-sm text-gray-600">Current Price</div>
+        <div class="text-2xl font-bold">$<%= number_with_precision(@current_price, precision: 2) %></div>
+      </div>
+      
+      <% if @portfolio_holding %>
+        <div class="p-4 bg-gray-50 rounded">
+          <div class="text-sm text-gray-600">Your Position</div>
+          <div class="text-2xl font-bold"><%= @portfolio_holding.quantity %> shares</div>
+          <div class="text-sm text-gray-600">Value: $<%= number_with_precision(@portfolio_holding.current_value, precision: 2) %></div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <!-- Buy Form -->
+      <div class="p-4 bg-green-50 rounded">
+        <h3 class="font-bold mb-2">Buy Shares</h3>
+        <%= form_tag buy_traders_stock_path(@stock), method: :post, class: "space-y-4" do %>
+          <div>
+            <%= label_tag :quantity, "Quantity", class: "block text-sm font-medium text-gray-700" %>
+            <%= number_field_tag :quantity, nil, min: 1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500" %>
+          </div>
+          <div class="text-sm text-gray-600">
+            Available Balance: $<%= number_with_precision(current_trader.balance, precision: 2) %>
+          </div>
+          <%= submit_tag "Buy", class: "w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700" %>
+        <% end %>
+      </div>
+
+      <!-- Sell Form -->
+      <div class="p-4 bg-red-50 rounded">
+        <h3 class="font-bold mb-2">Sell Shares</h3>
+        <%= form_tag sell_traders_stock_path(@stock), method: :post, class: "space-y-4" do %>
+          <div>
+            <%= label_tag :quantity, "Quantity", class: "block text-sm font-medium text-gray-700" %>
+            <%= number_field_tag :quantity, nil, min: 1, max: @portfolio_holding&.quantity, 
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500" %>
+          </div>
+          <div class="text-sm text-gray-600">
+            Available Shares: <%= @portfolio_holding&.quantity || 0 %>
+          </div>
+          <%= submit_tag "Sell", class: "w-full bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700" %>
+          <%= link_to "Transactions", traders_transactions_path %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

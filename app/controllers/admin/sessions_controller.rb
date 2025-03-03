@@ -19,7 +19,7 @@ class Admin::SessionsController < Devise::SessionsController
       session[:show_email_preview] = nil
       '/email_preview.html'  # Direct path to the preview file
     else
-      admin_dashboard_index_path
+      admin_dashboard_path
     end
   end
 
