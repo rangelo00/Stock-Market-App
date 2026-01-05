@@ -69,3 +69,4 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem "jsbundling-rails"
 gem "cssbundling-rails"
+gem "tailwindcss-rails", "~> 4.4"
