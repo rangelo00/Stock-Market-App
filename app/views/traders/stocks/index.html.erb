@@ -1,0 +1,58 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Stock Search</h1>
+
+  <% if flash[:alert] %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
+
+  <div class="bg-white p-6 rounded-lg shadow">
+    <%= form_tag traders_stocks_path, method: :get, class: "flex gap-4" do %>
+      <div class="flex-1">
+        <%= text_field_tag :q, params[:q],
+            class: "w-full p-2 border rounded",
+            placeholder: "Enter stock symbol (e.g., AAPL)",
+            autocomplete: "off" %>
+      </div>
+      <%= submit_tag "Search", class: "px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
+      <%= link_to "Go Back", traders_dashboard_path %>
+    <% end %>
+
+    <% if @stock_data %>
+      <div class="mt-6 p-4 bg-gray-50 rounded">
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="text-xl font-bold"><%= @stock_data[:symbol] %></h2>
+            <p class="text-gray-600">Current Price: <%= number_to_currency(@stock_data[:price]) %></p>
+            <p class="text-sm text-gray-500">Last Updated: <%= @stock_data[:latest_day] %></p>
+          </div>
+          <%= link_to "Trade This Stock", traders_stock_path(@stock), 
+              class: "px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" %>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+          <div class="p-3 bg-white rounded shadow">
+            <div class="text-sm text-gray-600">Open</div>
+            <div class="text-lg font-semibold"><%= number_to_currency(@stock_data[:open]) %></div>
+          </div>
+          
+          <div class="p-3 bg-white rounded shadow">
+            <div class="text-sm text-gray-600">High</div>
+            <div class="text-lg font-semibold text-green-600"><%= number_to_currency(@stock_data[:high]) %></div>
+          </div>
+          
+          <div class="p-3 bg-white rounded shadow">
+            <div class="text-sm text-gray-600">Low</div>
+            <div class="text-lg font-semibold text-red-600"><%= number_to_currency(@stock_data[:low]) %></div>
+          </div>
+          
+          <div class="p-3 bg-white rounded shadow">
+            <div class="text-sm text-gray-600">Volume</div>
+            <div class="text-lg font-semibold"><%= number_with_delimiter(@stock_data[:volume]) %></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
